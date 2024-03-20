@@ -10,7 +10,7 @@
 
 ## Output:
 ### 1. Creating a new account / Viewing account or all existing accounts:
-![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/47213295-a9b5-4c66-8c7e-5e823f360d43)
+![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/ece19d69-a69b-4631-8fb3-8fdbe5e7e0d6)
 
 ![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/cf33f88b-6834-4422-84cc-a65ca69e1aac)
 
