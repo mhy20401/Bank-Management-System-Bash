@@ -1,0 +1,264 @@
+#!/bin/bash
+
+# Function to display the main menu
+menu() 
+{
+    echo "================================================================================"
+    echo "                        Bank Management System                                  "
+    echo "================================================================================"
+    echo "Enter 1 to Create a new account."
+    echo "Enter 2 to Deposit."
+    echo "Enter 3 to Withdraw."
+    echo "Enter 4 to View account."
+    echo "Enter 5 to Check balance."
+    echo "Enter 6 to Delete account."
+    echo "Enter 7 to Exit."
+}
+
+# Function to create a new account
+newaccount()
+{
+    # Checking if the info.csv file exists, if not, creating it
+    if [ ! -f info.csv ]
+    then
+        touch info.csv
+    fi
+
+    # Getting account details from user
+    echo "Enter account no: "
+    read accno
+
+    # Validating account number input
+    while ! [[ $accno =~ [0-9]+$ ]]
+    do
+        echo "Please Enter a valid no:"
+        read accno
+    done
+
+    # Getting user account information
+    echo "Please Enter Full Name : "
+    read name
+    echo
+    echo "Enter Date of Birth: (Year-Month-Day)"
+    read bday
+    echo
+    echo "Enter Email Address: "
+    read email
+    echo
+    echo "Enter CNIC/ID Number :"
+    read id
+    echo
+    echo "Enter City Name : "
+    read city
+    echo 
+    echo "Enter Phone Number : "
+    read phone
+    echo
+    echo "Select Account Type:"
+    echo "1. Saving"
+    echo "2. Current"
+    read accountType
+
+    # Validating account type input
+    case $accountType in
+        1) accountType="saving" ;;	
+        2) accountType="current" ;;
+        *) 
+            echo " Please Enter a valid option! "
+            read accountType
+    esac
+
+    # Getting initial deposit amount from user
+    echo "Enter How much money you want to deposit: "
+    read amount
+
+    # Validating deposit amount input
+    while ! [[ $amount =~ [0-9]+$ ]]
+    do
+        echo "Please Enter a valid amount:"
+        read amount
+    done
+
+    # Appending account details to info.csv file
+    echo "$accno, $name, $bday, $id, $email, $city, $phone, $accountType, $amount" >> info.csv
+
+    echo " The account has been created successfully"
+}
+
+# Function to view account details
+viewaccount()
+{
+    echo "Enter 1 to View Specific Account Details"
+    echo "Enter 2 to View all existing accounts."
+    read input
+
+    if [ "$input" == "1" ]
+    then
+        echo
+        echo "Input the ID number of the account:"
+        read id_num
+        echo "Here is the Details of the Customer: $id_num "
+        echo ""ID","Name","DOB","CNIC","Email","City","PhoneNo","AccountType","Amount""
+        awk -F"," -v num=$id_num '$1 == num' info.csv
+
+    elif [ "$input" == "2" ]
+    then
+        echo
+        echo "Here is the data of all accounts"
+        awk '{print}' | column -t info.csv	
+    else
+        echo "false"
+    fi
+}
+
+# Function to delete an account
+deleteaccount()
+{
+    echo "Please Enter ID Of account to Delete"
+    read id_num 
+    
+    # Removing account with given ID from info.csv
+    awk -F"," -v num=$id_num '$1 != num' info.csv > delfile.csv
+    cp delfile.csv info.csv
+    echo "You have successfully deleted the account $id_num"	
+}
+
+# Function to deposit money into an account
+deposit()
+{
+    echo "Enter ID Number"
+    read id_num
+
+    echo "Enter Amount You want to deposit"
+    read amount
+
+    # Validating deposit amount input
+    while ! [[ $amount =~ [0-9]+$ ]]
+    do
+        echo "Please Enter a valid amount:"
+        read amount
+    done
+    
+    # Retrieving account details
+    acno=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $1}')
+    namee=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $2}')
+    dob=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $3}')
+    cnic=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $4}')
+    mail=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $5}')
+    cty=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $6}')
+    phne=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $7}')
+    acctype=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $8}')
+    currentBalance=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $9}')
+
+    # Displaing current balance and calculating new balance after deposit
+    echo "Current balance: $currentBalance"
+    newBalance=$(( currentBalance + amount ))
+    echo "New Balance: $newBalance"
+    
+    # Removing account from info.csv file
+    awk -F"," -v num=$id_num '$1 != num' info.csv > delfile.csv
+    cp delfile.csv info.csv
+
+    # Appending updated account details to info.csv file
+    echo "$acno, $namee, $dob, $cnic, $mail, $cty, $phne, $acctype, $newBalance" >> info.csv
+}
+
+# Function to withdraw money from an account
+withdraw()
+{
+    echo "Enter ID Number"
+    read id_num
+
+    echo "Enter Amount You want to withdraw"
+    read amount
+
+    # Validating withdrawal amount input
+    while ! [[ $amount =~ [0-9]+$ ]]
+    do
+        echo "Please Enter a valid amount:"
+        read amount
+    done
+    
+    # Retrieving account details
+    acno=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $1}')
+    namee=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $2}')
+    dob=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $3}')
+    cnic=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $4}')
+    mail=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $5}')
+    cty=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $6}')
+    phne=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $7}')
+    acctype=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $8}')
+    currentBalance=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $9}')
+
+    echo "Old balance: $currentBalance"
+    
+    # Checking if withdrawal amount exceeds current balance
+    if [ $amount -le $currentBalance ]
+    then		
+        newBalance=$(( currentBalance - amount ))
+        echo "New Balance: $newBalance"
+    
+        # Removing account from info.csv file
+        awk -F"," -v num=$id_num '$1 != num' info.csv > delfile.csv
+        cp delfile.csv info.csv
+
+        # Appending updated account details to info.csv
+        echo "$acno, $namee, $dob, $cnic, $mail, $cty, $phne, $acctype, $newBalance" >> info.csv
+
+    else
+        echo "insufficient funds."
+    fi
+}
+
+# Function to check balance of an account
+checkbalance()
+{
+    echo "Please Enter ID Of account to check balance:"
+    read id_num 
+    
+    # Retrieving current balance from info.csv file and displaying it
+    currentBalance=$(awk -F"," -v num=$id_num '$1 == num' info.csv | awk -F"," '{print $9}')
+    echo "Current balance: $currentBalance"	
+}
+
+# Main loop to display menu and execute selected operations
+while [ "$option" != "7" ]
+do
+    menu
+    echo "Enter option: "
+    read option 
+    case $option in
+        1) newaccount
+            read temp		
+            clear;;
+
+        2) deposit
+            read temp
+            clear;;
+
+        3) withdraw
+            read temp
+            clear;;
+
+        4) viewaccount
+            read temp
+            clear;;
+
+        5) checkbalance
+            read temp
+            clear;;
+
+        6) deleteaccount
+            read temp
+            clear;;
+
+        7) exit;;
+
+        *)
+            echo "Select a Valid Option"
+            read temp
+            clear;;
+            
+    esac
+done
+
