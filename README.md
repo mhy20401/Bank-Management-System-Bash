@@ -4,15 +4,16 @@
 -  Creating a new account,
 -  Depositing money,
 -  Withdrawing money,
--  Checking account details,
--  Viewing all existing accounts &
+-  Checking account balance,
+-  Viewing account or all existing accounts &
 -  Deleting an account.
 
 ## Output:
-
-### 1. Creating a new account:
+### 1. Creating a new account / Viewing account or all existing accounts:
 ![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/47213295-a9b5-4c66-8c7e-5e823f360d43)
+
 ![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/cf33f88b-6834-4422-84cc-a65ca69e1aac)
+
 ![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/3826d325-f1b2-41b5-8fc6-752b15df8eb4)
 
 ### 2. Depositing money:
@@ -24,14 +25,10 @@
 ### 4. Checking balance:
 ![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/199c53d7-ef1b-4de2-8109-7c8bc847b860)
 
-### 6. Viewing account / all existing accounts:
-![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/cf33f88b-6834-4422-84cc-a65ca69e1aac)
-![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/3826d325-f1b2-41b5-8fc6-752b15df8eb4)
-
-### 7. Deleting account:
+### 5. Deleting account:
 ![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/4080c94c-4551-4293-aa02-2c0a98af358a)
+
 ![image](https://github.com/mhy20401/Bank-Management-System-Bash/assets/99351091/e47a09d1-d917-466d-adc7-9ba616af629b)
 
-
-
-
+## Contributors:
+-  Muhammad Hammad Yousaf - mhy20401 (https://github.com/mhy20401)
